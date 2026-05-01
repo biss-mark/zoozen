@@ -78,15 +78,16 @@ const Navbar = ({ openMenu }) => {
                         {i18n.language === 'fr' ? 'Fr' : 'En'}
                     </button>
                     <ul className={`absolute top-8 bg-white dark:bg-black dark:text-white w-28 -left-11 rounded-md p-1 transition-all duration-300 ${showLang ? showLangManagement : hideLangManagement}`}>
-                        <li className=""><button onClick={EnLang} className="w-full px-2 py-1 cursor-pointer hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-between transition-all border-b-2 ">
-                            <Icon icon={i18n.language === 'en' ? 'material-symbols:check' : ''} />
-                            <span className="w-full">
-                                {t('header.englishLanguage')}
-                            </span>
-
-                        </button></li>
+                        <li className="">
+                            <button onClick={EnLang} className="w-full px-2 py-1 cursor-pointer hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-between transition-all border-b-2 ">
+                                <Icon icon={'material-symbols:check'} className={`text-3xl ${i18n.language === 'en' ? 'opacity-100' : 'opacity-0'}`} />
+                                <span className="w-full">
+                                    {t('header.englishLanguage')}
+                                </span>
+                            </button>
+                        </li>
                         <li className=""><button onClick={FrLang} className="w-full px-2 py-1 cursor-pointer hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-between transition-all">
-                            <Icon icon={i18n.language === 'fr' ? 'material-symbols:check' : ''} />
+                            <Icon icon={'material-symbols:check'} className={`text-3xl ${i18n.language === 'fr' ? 'opacity-100' : 'opacity-0'}`} />
                             <span className="w-full">
                                 {t('header.frenchLanguage')}
                             </span>
@@ -97,8 +98,10 @@ const Navbar = ({ openMenu }) => {
                     <Icon icon={isDark ? 'ri:sun-fill' : 'ri:moon-fill'} className='text-2xl' />
                 </button>
 
-                <button className='cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all md:hidden'>
-                    <NavLink to={'/research'} className={({ isActive }) => isActive ? activeLink : normalLink} ><Icon icon={'material-symbols:search-rounded'} className="text-2xl" /></NavLink>
+                <button className='cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all hidden sm:flex md:hidden'>
+                    <NavLink to={'/research'} className={({ isActive }) => isActive ? activeLink : normalLink} >
+                        <Icon icon={'material-symbols:search-rounded'} className="text-2xl" />
+                    </NavLink>
                 </button>
 
                 <button className='cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all md:hidden' onClick={openMenu}>

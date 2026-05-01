@@ -265,48 +265,48 @@ const VideoSection = () => {
 const Facts = () => {
 
     const { t } = useTranslation();
-    const [ facts, setFacts ] = useState([]);
+    const [facts, setFacts] = useState([]);
 
-            const generateFacts = () => {
+    const generateFacts = () => {
 
-            const arrayFacts = [
-                { image: lion, text: t('home.factMysteryOne') },
-                { image: bee, text: t('home.factMysteryThree') },
-                { image: butterfly, text: t('home.factMysteryTwo') },
-                { image: crow, text: t('home.factMysteryFour') },
-                { image: dolphin, text: t('home.factMysteryFive') },
-                { image: fly, text: t('home.factMysterySix') },
-                { image: jellyfish, text: t('home.factMysterySeven') },
-                { image: koala, text: t('home.factMysteryHeight') },
-                { image: shrimp, text: t('home.factMysteryNine') },
-                { image: theants, text: t('home.factMysteryTen') },
-                { image: whale, text: t('home.factMysteryEleven') },
-                { image: giraffe, text: t('home.factMysteryTwelve') }
-            ];
+        const arrayFacts = [
+            { image: lion, text: t('home.factMysteryOne') },
+            { image: bee, text: t('home.factMysteryThree') },
+            { image: butterfly, text: t('home.factMysteryTwo') },
+            { image: crow, text: t('home.factMysteryFour') },
+            { image: dolphin, text: t('home.factMysteryFive') },
+            { image: fly, text: t('home.factMysterySix') },
+            { image: jellyfish, text: t('home.factMysterySeven') },
+            { image: koala, text: t('home.factMysteryHeight') },
+            { image: shrimp, text: t('home.factMysteryNine') },
+            { image: theants, text: t('home.factMysteryTen') },
+            { image: whale, text: t('home.factMysteryEleven') },
+            { image: giraffe, text: t('home.factMysteryTwelve') }
+        ];
 
-            const selection = [];
+        const selection = [];
 
-            
-            for (let i = 0; i < 3; i++) {
-                    let randomIndex = arrayFacts[Math.floor(Math.random() * arrayFacts.length)];
-                    
-                    while (selection.some(c => c.text === randomIndex.text)) {
-                        randomIndex = arrayFacts[Math.floor(Math.random() * arrayFacts.length)];
-                    }
-                    
-                    selection.push(randomIndex);
+
+        for (let i = 0; i < 3; i++) {
+            let randomIndex = arrayFacts[Math.floor(Math.random() * arrayFacts.length)];
+
+            while (selection.some(c => c.text === randomIndex.text)) {
+                randomIndex = arrayFacts[Math.floor(Math.random() * arrayFacts.length)];
             }
-            
 
-            setFacts(selection);
+            selection.push(randomIndex);
+        }
 
-        };
 
-        useEffect(() => {
-            generateFacts();
-        }, []);
+        setFacts(selection);
 
-        
+    };
+
+    useEffect(() => {
+        generateFacts();
+    }, []);
+
+
 
 
 
@@ -322,7 +322,7 @@ const Facts = () => {
                         <p className=''>{a.text}</p>
                     </article>
                 ))}
-                <button onClick={generateFacts}>button</button>
+                {/* <button onClick={generateFacts}>button</button> */}
             </div>
         </div>
     )
