@@ -20,6 +20,8 @@ import koala from '../assets/svg/koala.svg';
 import shrimp from '../assets/svg/shrimp.svg';
 import theants from '../assets/svg/theants.svg';
 import whale from '../assets/svg/whale.svg';
+import SkeletonCard from '../components/ui/SkeletonCard';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 
@@ -68,46 +70,59 @@ const Home = () => {
     const currentImg = animalBanner[index];
 
 
-    const searchList = ['Lion', 'Wolf', 'elephant', 'fish', 'zebra', 'snake'];
-    const [animalsChoice] = useState(() => {
-        return searchList[Math.floor(Math.random() * searchList.length)];
-    })
+    const searchList = ['Lion', 'Wolf', 'Elephant', 'Angelfish', 'Zebra', 'Snake', 'Giraffe', 'Bear', 'Shark', 'Eagle', 'Kangaroo', 'Penguin', 'Tiger', 'Cheetah', 'Dolphin', 'Octopus', 'Rabbit', 'Horse', 'Leopard', 'Crocodile', 'Hyena', 'Flamingo'];
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchAllData = async () => {
+            setLoading(true);
             try {
-                const resNinja = await fetch(`https://api.api-ninjas.com/v1/animals?name=${animalsChoice}`, {
-                    headers: { 'X-Api-Key': import.meta.env.VITE_NINJA_API_KEY }
-                });
-                const dataAnimals = await resNinja.json();
+                const selectedNames = [...searchList]
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 6);
 
-                const limitedAnimals = dataAnimals.slice(0, 4);
+                const fetchSingleAnimal = async (name) => {
+                    const resNinja = await fetch(`https://api.api-ninjas.com/v1/animals?name=${name}`, {
+                        headers: { 'X-Api-Key': import.meta.env.VITE_NINJA_API_KEY }
+                    });
+                    const ninjaData = await resNinja.json();
 
-                const resUnsplash = await fetch(
-                    `https://api.unsplash.com/search/photos?query=${animalsChoice}&per_page=04`,
-                    { headers: { Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}` } }
-                );
-                const dataPhotos = await resUnsplash.json();
+                    const animalFacts = ninjaData[0];
 
-                const combinedData = limitedAnimals.map((animal, index) => ({
-                    ...animal,
-                    imageDeFond: dataPhotos.results[index]?.urls.regular || '/placeholder.jpg'
-                }));
+                    const searchTerm = animalFacts?.name || name;
 
-                setAnimals(combinedData);
-                setLoading(false);
+                    const refinedSearch = `${searchTerm} animal wildlife`;
+
+                    const resUnsplash = await fetch(
+                        `https://api.unsplash.com/search/photos?query=${encodeURIComponent(refinedSearch)}&per_page=1`,
+                        {
+                            headers: { Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}` }
+                        }
+                    );
+                    const unsplashData = await resUnsplash.json();
+
+                    return {
+                        ...animalFacts,
+                        displayId: Math.random(),
+                        commonName: name,
+                        imageDeFond: unsplashData.results[0]?.urls.regular || '/placeholder.jpg'
+                    };
+                };
+
+                const finalResults = await Promise.all(selectedNames.map(name => fetchSingleAnimal(name)));
+
+                setAnimals(finalResults);
             } catch (error) {
-                console.error(error);
+                console.error("Fatale Error :", error);
+            } finally {
                 setLoading(false);
             }
         };
 
-        fetchData();
-    }, [animalsChoice]);
+        fetchAllData();
+    }, []);
 
 
-
-    if (loading) return <div className="text-center p-20 dark:text-white">Chargement du monde animal...</div>;
+    // if (loading) return <div className="text-center p-20 dark:text-white">Chargement du monde animal...</div>;
 
     return (
         <div className=' dark:bg-zoo-dark transition-all duration-300'>
@@ -145,9 +160,17 @@ const Home = () => {
                 <section className="p-3">
                     <h1 className="text-3xl font-bold text-center dark:text-white mb-3 ">{t('home.animal_title')}</h1>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {animals.map((item, index) => (
-                            <Cards key={index} animal={item} imageUrl={item.imageDeFond} />
-                        ))}
+                        {loading ? (
+                            Array.from({ length: 6 }).map((_, index) => (
+                                <SkeletonCard key={index} />
+                            ))
+                        ) : (
+                            animals.map((item) => (
+                                <Link key={item.displayId} to={`/animal/${item.name.toLowerCase()}`} state={{ imageUrl: item.imageDeFond }} className="decoration-0">
+                                    <Cards animal={item} imageUrl={item.imageDeFond} />
+                                </Link>
+                            ))
+                        )}
                     </div>
                 </section>
 
@@ -203,7 +226,7 @@ const SimpleCounter = ({ end, duration = 2000 }) => {
         const step = (timesTamp) => {
             if (!startTimesTamp) startTimesTamp = timesTamp;
             const progress = Math.min((timesTamp - startTimesTamp) / duration, 1);
-            // On calcule la valeur actuelle
+
             setCount(Math.floor(progress * end));
 
             if (progress < 1) {

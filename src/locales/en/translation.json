@@ -12,6 +12,7 @@
         "carnivorous": "carnivorous",
         "herbivorous": "herbivorous",
         "omnivorous": "omnivorous",
+        "allCategory": "All category",
         "recent": "recent",
         "old": "old"
     },

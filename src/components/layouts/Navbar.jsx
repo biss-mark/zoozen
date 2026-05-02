@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
 import logoImg from '../../assets/logo_noir.png';
 import { Link, NavLink } from 'react-router-dom'
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Navbar = ({ openMenu }) => {
 
@@ -12,22 +12,36 @@ const Navbar = ({ openMenu }) => {
     const toggleShow = () => {
         setShowLang(!showLang);
     }
+
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        if (!showLang) return;
+
+        const handleClickOutside = (event) => {
+
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowLang(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("touchstart", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchstart", handleClickOutside);
+        }
+
+    }, [showLang]);
+
     const showLangManagement = ' opacity-100 z-30';
     const hideLangManagement = ' opacity-0 -z-50';
 
-    const EnLang = () => {
+    const changeL = (lng) => {
         setShowLang(false);
         setTimeout(() => {
-            const newLang = 'en';
-            i18n.changeLanguage(newLang);
-        }, 1000);
-    };
-
-    const FrLang = () => {
-        setShowLang(false);
-        setTimeout(() => {
-            const newLang = 'fr';
-            i18n.changeLanguage(newLang);
+            i18n.changeLanguage(lng);
         }, 1000);
     };
 
@@ -51,7 +65,6 @@ const Navbar = ({ openMenu }) => {
 
     return (
         <header className='bg-zoo-green w-full p-4 flex items-center justify-between'>
-            {showLang ? (<div onClick={toggleShow} className='fixed w-full h-full top-0 left-0 z-20' />) : ''}
             <Link to={'/'} ><img src={logoImg} alt='Logo Zoozen' className='w-38' /></Link>
             <nav className="hidden md:flex">
                 <ul className='flex items-center justify-between gap-5'>
@@ -73,25 +86,29 @@ const Navbar = ({ openMenu }) => {
                 </ul>
             </nav>
             <div className="gap-1 flex items-center ">
-                <div className="relative">
-                    <button onClick={toggleShow} className=' border-2 border-black text-black bg-black/20 rounded-sm px-4 cursor-pointer'>
+                <div className="relative" ref={dropdownRef}>
+                    <button onClick={toggleShow} translate="no" className=' border-2 border-black text-black bg-black/20 rounded-sm px-4 cursor-pointer'>
                         {i18n.language === 'fr' ? 'Fr' : 'En'}
                     </button>
-                    <ul className={`absolute top-8 bg-white dark:bg-black dark:text-white w-28 -left-11 rounded-md p-1 transition-all duration-300 ${showLang ? showLangManagement : hideLangManagement}`}>
+                    <ul className={`absolute top-8 bg-white dark:bg-black dark:text-white w-38 -left-17 rounded-md p-1 transition-all duration-300 ${showLang ? showLangManagement : hideLangManagement}`}>
                         <li className="">
-                            <button onClick={EnLang} className="w-full px-2 py-1 cursor-pointer hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-between transition-all border-b-2 ">
+                            <button onClick={() => changeL('en')} className="w-full px-2 py-1 cursor-pointer hover:bg-black/10 dark:hover:bg-white/20 flex gap-3 items-center justify-between transition-all border-b-2 ">
                                 <Icon icon={'material-symbols:check'} className={`text-3xl ${i18n.language === 'en' ? 'opacity-100' : 'opacity-0'}`} />
-                                <span className="w-full">
+                                <span className="w-full flex gap-2 items-center">
+                                    <Icon icon={'circle-flags:us'} className='text-xl' />
                                     {t('header.englishLanguage')}
                                 </span>
                             </button>
                         </li>
-                        <li className=""><button onClick={FrLang} className="w-full px-2 py-1 cursor-pointer hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-between transition-all">
-                            <Icon icon={'material-symbols:check'} className={`text-3xl ${i18n.language === 'fr' ? 'opacity-100' : 'opacity-0'}`} />
-                            <span className="w-full">
-                                {t('header.frenchLanguage')}
-                            </span>
-                        </button></li>
+                        <li className="">
+                            <button onClick={() => changeL('fr')} className="w-full px-2 py-1 cursor-pointer hover:bg-black/10 dark:hover:bg-white/20 flex gap-3 items-center justify-between transition-all">
+                                <Icon icon={'material-symbols:check'} className={`text-3xl ${i18n.language === 'fr' ? 'opacity-100' : 'opacity-0'}`} />
+                                <span className="w-full flex gap-2 items-center">
+                                    <Icon icon={'circle-flags:fr'} className='text-xl' />
+                                    {t('header.frenchLanguage')}
+                                </span>
+                            </button>
+                        </li>
                     </ul>
                 </div>
                 <button onClick={toggleTheme} className="cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all" title="Changer de thème" >

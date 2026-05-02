@@ -12,6 +12,7 @@
   "dependencies": {
     "@iconify/react": "^6.0.2",
     "@tailwindcss/postcss": "^4.2.2",
+    "axios": "^1.15.2",
     "i18next": "^26.0.8",
     "i18next-browser-languagedetector": "^8.2.1",
     "postcss": "^8.5.9",

@@ -5,7 +5,7 @@ import ScrollTop from "../components/ui/ScrollTop"
 
 const Histories = () => {
 
-  const [zoozenFavorite, setZoozenFavorite] = useState(() => {
+  const [zoozenFavorite] = useState(() => {
     const favoriteStorage = localStorage.getItem('zoozenFavorite');
     return favoriteStorage ? JSON.parse(favoriteStorage) : [];
   });

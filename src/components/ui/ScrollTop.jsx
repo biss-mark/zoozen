@@ -1,8 +1,6 @@
 import { Icon } from '@iconify/react'
 
 const ScrollTop = () => {
-    
-
 
     const handleTop = () => {
         scrollTo({
@@ -20,4 +18,4 @@ const ScrollTop = () => {
     )
 }
 
-export default ScrollTop
+export default ScrollTop;

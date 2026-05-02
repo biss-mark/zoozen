@@ -56,7 +56,7 @@ const Footer = () => {
                         <img src={!isDark ? footerDark : footerLight} alt="zoozen footer" className='w-6' />
                         Zoozen
                     </h3>
-                    <p className='p-2'>Zoozen est une plateforme dédiée à l'éducation et à la préservation du monde animalier.  Apprenez à connaître ceux qui partagent notre planète.</p>
+                    <p className='p-2'>{t('footer.footerZoozenText')}</p>
                 </div>
 
             </div>
