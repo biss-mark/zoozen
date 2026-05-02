@@ -14,7 +14,14 @@
     "omnivorous": "omnivore",
     "allCategory": "Tous les catégories",
     "recent": "récent",
-    "old": "ancien"
+    "old": "ancien",
+    "unavailable": "Description indisponible.",
+    "diet": "Régime",
+    "habitat": "Habitat",
+    "meal": "Repas",
+    "type": "Taper",
+    "group": "Groupe",
+    "someCharacteristics": "some characteristics"
   },
   "home": {
     "hero_title": "Zoozen, la plateforme qui vous donnera des détails précis sur le monde animalier.",

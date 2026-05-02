@@ -1,9 +1,9 @@
 {
     "header": {
         "home": "Home",
-        "search": "Search",
+        "search": "Research",
         "explore": "Explore",
-        "history": "History",
+        "history": "Historical",
         "favorites": "Favorites",
         "frenchLanguage": "French",
         "englishLanguage": "English",
@@ -14,7 +14,14 @@
         "omnivorous": "omnivorous",
         "allCategory": "All category",
         "recent": "recent",
-        "old": "old"
+        "old": "old",
+        "unavailable": "Description unavailable.",
+        "diet": "Diet",
+        "habitat": "Habitat",
+        "meal": "Meal",
+        "type": "Type",
+        "group": "Group",
+        "someCharacteristics": "some characteristics"
     },
     "home": {
         "hero_title": "Zoozen, the platform that will give you precise details about the animal world.",
