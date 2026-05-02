@@ -78,7 +78,7 @@ const Home = () => {
             try {
                 const selectedNames = [...searchList]
                     .sort(() => 0.5 - Math.random())
-                    .slice(0, 6);
+                    .slice(0, 8);
 
                 const fetchSingleAnimal = async (name) => {
                     const resNinja = await fetch(`https://api.api-ninjas.com/v1/animals?name=${name}`, {
@@ -121,6 +121,8 @@ const Home = () => {
         fetchAllData();
     }, []);
 
+    
+
 
     // if (loading) return <div className="text-center p-20 dark:text-white">Chargement du monde animal...</div>;
 
@@ -161,12 +163,12 @@ const Home = () => {
                     <h1 className="text-3xl font-bold text-center dark:text-white mb-3 ">{t('home.animal_title')}</h1>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {loading ? (
-                            Array.from({ length: 6 }).map((_, index) => (
+                            Array.from({ length: 8 }).map((_, index) => (
                                 <SkeletonCard key={index} />
                             ))
                         ) : (
                             animals.map((item) => (
-                                <Link key={item.displayId} to={`/animal/${item.name.toLowerCase()}`} state={{ imageUrl: item.imageDeFond }} className="decoration-0">
+                                <Link key={item.displayId} to={`/animal/${item.name.toLowerCase().replace(/\s+/g, '-')}`} state={{ imageUrl: item.imageDeFond }} className="decoration-0">
                                     <Cards animal={item} imageUrl={item.imageDeFond} />
                                 </Link>
                             ))

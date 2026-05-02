@@ -1,34 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom'; // AJOUTE useLocation
+import { useParams, useLocation, useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
+import Header from '../components/layouts/Header';
+import ScrollTop from '../components/ui/ScrollTop';
+import Footer from '../components/layouts/Footer';
+import { Icon } from '@iconify/react';
 
 const AnimalDetail = () => {
-    const { id } = useParams(); // Le nom de l'animal (pour API Ninjas)
-    const location = useLocation(); // <--- RÉCUPÈRE LA LOCATION
+    const { id } = useParams();
+    const location = useLocation(); 
 
-    // Récupère l'image depuis l'état, ou utilise null si elle n'existe pas
     const imageDeBase = location.state?.imageUrl;
 
-    const [animalData, setAnimalData] = useState(null);
+    const [animalData, setAnimalData] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        // PLUS BESOIN D'APPELER UNSPLASH ICI !
-        // On garde l'image de base
 
         const fetchFacts = async () => {
             setLoading(true);
             try {
-                // Appelle UNIQUEMENT API Ninjas pour les faits
                 const ninjaRes = await axios.get(`https://api.api-ninjas.com/v1/animals?name=${id}`, {
                     headers: { 'X-Api-Key': import.meta.env.VITE_NINJA_API_KEY }
                 });
 
-                if (ninjaRes.data.length > 0) {
-                    setAnimalData(ninjaRes.data[0]);
-                }
+                const dataAnimal = ninjaRes.json();
+                console.log(dataAnimal);
+                
+
+                // setAnimalData(dataAnimal);
+
+                // if (ninjaRes.data.length > 0) {
+                //     setAnimalData(ninjaRes.data[0]);
+                // }
             } catch (error) {
-                console.error("Erreur faits:", error);
+                console.error("Fatale error:", error);
             } finally {
                 setLoading(false);
             }
@@ -37,20 +45,32 @@ const AnimalDetail = () => {
         fetchFacts();
     }, [id]);
 
-    if (loading) return <p>Chargement...</p>;
+    // console.log(animalData);
+    
+
+    if (loading) return <p className='absolute inset-0'>loading...</p>;
 
     return (
-        <div className="container p-4">
-            <h1 className="text-capitalize" style={{ color: '#4c1d95' }}>{id}</h1>
+        <div className=" dark:bg-zoo-dark transition-all duration-300">
+            <ScrollTop/>
+            <Header/>
+            <section className="flex items-center gap-3 my-3 w-full max-w-300 mx-auto">
+                <button onClick={() => navigate(-1)} className='p-2 cursor-pointer flex items-center justify-center'><Icon icon={'material-symbols:arrow-back-ios-new-rounded'} className='text-3xl dark:text-white'/></button>
+                <h1 className="dark:text-white flex items-center text-2xl font-semibold mb-1">
+                    <span className="">animal</span>
+                    <Icon icon={'mdi:slash-forward'} className='text-2xl'/>
+                    <span>{id}</span>
+                </h1>
+            </section>
 
-            {/* UTILISE L'IMAGE TRANSMISE */}
+            <section className="w-full max-w-300 mx-auto px-4 pb-9">
             {imageDeBase && (
-                <img src={imageDeBase} alt={id} style={{ width: '100%', maxHeight: '500px', objectFit: 'cover', borderRadius: '15px' }} />
+                <img src={imageDeBase} alt={id} className='w-full max-h-125 object-cover rounded-[15px] '/>
             )}
 
             {animalData ? (
                 <div className="details">
-                    <p><strong>Nom scientifique :</strong> {animalData.taxonomy?.scientific_name}</p>
+                    <h1 className='text-3xl font-bold '>{id}</h1>
                     <p><strong>Régime :</strong> {animalData.characteristics?.diet}</p>
                     <p><strong>Habitat :</strong> {animalData.characteristics?.habitat}</p>
                 </div>
@@ -58,7 +78,9 @@ const AnimalDetail = () => {
                 <p>Données scientifiques indisponibles pour le moment.</p>
             )}
 
+            </section>
             {/* Reste de ton affichage de données scientifiques... */}
+            <Footer/>
         </div>
     );
 };
