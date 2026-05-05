@@ -6,6 +6,7 @@ import ScrollTop from '../components/ui/ScrollTop';
 import Footer from '../components/layouts/Footer';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
+import SkeletonDetailCard from '../components/ui/SkeletonDetailCard';
 
 const AnimalDetail = () => {
 
@@ -63,45 +64,72 @@ const AnimalDetail = () => {
         fetchFacts();
     }, [id, t]);
 
-
-    if (loading) return <p className='absolute inset-0'>loading...</p>;
-
     return (
         <div className=" dark:bg-zoo-dark transition-all duration-300 dark:text-white">
             <ScrollTop />
             <Header />
-            <section className="flex items-center gap-3 my-3 w-full max-w-300 mx-auto">
-                <button onClick={() => navigate(-1)} className='p-2 cursor-pointer flex items-center justify-center'><Icon icon={'material-symbols:arrow-back-ios-new-rounded'} className='text-3xl dark:text-white' /></button>
-                <h1 className="dark:text-white flex items-center text-[20px] font-semibold mb-1">
-                    <span className="">animal</span>
-                    <Icon icon={'mdi:slash-forward'} className='text-2xl' />
-                    <span>{id}</span>
-                </h1>
-            </section>
+            {!loading ?
+                (
+                    <div>
 
-            <section className="w-full max-w-300 mx-auto px-4 pb-9">
-                {imageDeBase && (
-                    <img src={imageDeBase} alt={id} className='w-full max-h-125 object-cover rounded-[15px] ' />
-                )}
+                        <section className="flex items-center gap-3 my-3 w-full max-w-300 mx-auto">
+                            <button onClick={() => navigate(-1)} className='p-2 cursor-pointer flex items-center justify-center'><Icon icon={'material-symbols:arrow-back-ios-new-rounded'} className='text-3xl dark:text-white' /></button>
+                            <h1 className="dark:text-white flex items-center text-[20px] font-semibold mb-1">
+                                <span className="">animal</span>
+                                <Icon icon={'mdi:slash-forward'} className='text-2xl' />
+                                <span>{id}</span>
+                            </h1>
+                        </section>
 
-                {animalData ? (
-                    <div className="details mt-4">
-                        <h1 className='text-3xl font-bold '>{animalData.name}</h1>
-                        <p className="my-4">{wikiDescription}</p>
-                        <ul className="list-disc">
-                            <h2 className="text-xl font-semibold capitalize">{t('header.someCharacteristics')}</h2>
-                            <li className='ml-6'><span className='font-medium'>{t('header.diet')} :</span> {animalData.characteristics?.diet}</li>
-                            <li className='ml-6'><span className='font-medium'>{t('header.habitat')} :</span> {animalData.characteristics?.habitat}</li>
-                            <li className='ml-6'><span className='font-medium'>{t('header.meal')} :</span> {animalData.characteristics?.prey}</li>
-                            <li className='ml-6'><span className='font-medium'>{t('header.type')} :</span> {animalData.characteristics?.type}</li>
-                            <li className='ml-6'><span className='font-medium'>{t('header.group')} :</span> {animalData.characteristics?.group}</li>
-                        </ul>
+                        <section className="w-full max-w-300 mx-auto px-4 pb-9">
+                            {imageDeBase && (
+                                <img src={imageDeBase} alt={id} className='w-full max-h-125 object-cover rounded-[15px] ' />
+                            )}
+
+                            {animalData ? (
+                                <div className="details mt-4">
+                                    <h1 className='text-3xl font-bold '>{animalData.name}</h1>
+                                    <p className="my-4">{wikiDescription}</p>
+                                    <ul className="list-disc">
+                                        <h2 className="text-xl font-semibold capitalize mb-4">{t('header.someCharacteristics')}</h2>
+                                        {animalData.characteristics?.diet && (
+                                            <li className='ml-6'><span className='font-medium'>{t('header.diet')} :</span> {animalData.characteristics.diet}</li>
+                                        )}
+
+                                        {animalData.characteristics?.habitat && (
+                                            <li className='ml-6'><span className='font-medium'>{t('header.habitat')} :</span> {animalData.characteristics.habitat}</li>
+                                        )}
+
+                                        {animalData.characteristics?.prey && (
+                                            <li className='ml-6'><span className='font-medium'>{t('header.meal')} :</span> {animalData.characteristics.prey}</li>
+                                        )}
+
+                                        {animalData.characteristics?.type && (
+                                            <li className='ml-6'><span className='font-medium'>{t('header.type')} :</span> {animalData.characteristics.type}</li>
+                                        )}
+
+                                        {animalData.characteristics?.group && (
+                                            <li className='ml-6'><span className='font-medium'>{t('header.group')} :</span> {animalData.characteristics.group}</li>
+                                        )}
+
+                                        {animalData.characteristics?.lifespan && (
+                                            <li className='ml-6'><span className='font-medium'>{t('header.lifespan')} :</span> {animalData.characteristics.lifespan}</li>
+                                        )}
+
+                                        {animalData.characteristics?.age_of_sexual_maturity && (
+                                            <li className='ml-6'><span className='font-medium'>{t('header.age_of_sexual_maturity')} :</span> {animalData.characteristics.age_of_sexual_maturity}</li>
+                                        )}
+                                    </ul>
+                                </div>
+                            ) : (
+                                <p>Données scientifiques indisponibles pour le moment.</p>
+                            )}
+
+                        </section>
                     </div>
                 ) : (
-                    <p>Données scientifiques indisponibles pour le moment.</p>
+                    <SkeletonDetailCard />
                 )}
-
-            </section>
             {/* Reste de ton affichage de données scientifiques... */}
             <Footer />
         </div>

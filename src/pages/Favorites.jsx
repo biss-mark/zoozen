@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Icon } from '@iconify/react'
 import Cards from '../components/ui/Cards'
 import { Link } from 'react-router-dom'
+import Confirmation from '../components/ui/Confirmation'
 
 const Favorites = () => {
 
@@ -14,18 +15,26 @@ const Favorites = () => {
   const [dietFilter, setDietFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState('recent');
   const [activeFilterLabel, setActiveFilterLabel] = useState(t('header.allCategory'));
+  const [letConfirm, setLetConfirm] = useState({ isOpen: false, animalName: '' });
 
-  // Transformation en vrai State pour que setZoozenFavorite fonctionne
   const [zoozenFavorite, setZoozenFavorite] = useState(() => {
     const favoriteStorage = localStorage.getItem('zoozenFavorite');
     return favoriteStorage ? JSON.parse(favoriteStorage) : [];
   });
+
+  const confirmDelete = (animal) => {
+    setLetConfirm({ isOpen: true, animalName: animal.name })
+  }
 
   const removeFavorite = (name) => {
     const updated = zoozenFavorite.filter(fav => fav.name !== name);
     localStorage.setItem('zoozenFavorite', JSON.stringify(updated));
     setZoozenFavorite(updated);
   };
+
+  const onConfirmDelete = () => {
+    removeFavorite(letConfirm.animalName);
+  }
 
   const toggleShow = () => {
     setShowFilter(!showFilter);
@@ -61,16 +70,22 @@ const Favorites = () => {
     const timeB = b.viewedAt || 0;
     return sortOrder === 'recent' ? timeB - timeA : timeA - timeB;
   });
-
-
-
-  console.log(zoozenFavorite);
-
+  
 
   return (
-    <div className='dark:bg-zoo-dark dark:text-white transition-all duration-300'>
+    <div className='dark:bg-zoo-dark dark:text-white transition-all duration-300 h-screen'>
       <ScrollTop />
       <Header />
+      {letConfirm ?
+        <Confirmation
+          thisName={letConfirm.animalName}
+          isActive={letConfirm.isOpen}
+          onClose={() => setLetConfirm({ ...letConfirm, isOpen: false })}
+          onConfirm={onConfirmDelete}
+        />
+        :
+        ''
+      }
       <section className="my-5">
         <div className="flex flex-col gap-4 items-center justify-around sm:flex-row">
           <h2 className="font-bold text-3xl text-center">{t('favorite.favoriteTitle')}</h2>
@@ -96,7 +111,7 @@ const Favorites = () => {
                 </button>
               </li>
               <li>
-                <button onClick={() => { setDietFilter('Omnivorous'); setActiveFilterLabel(t('header.omnivorous')); setShowFilter(false); }}
+                <button onClick={() => { setDietFilter('Omnivore'); setActiveFilterLabel(t('header.omnivorous')); setShowFilter(false); }}
                   className="w-full py-1.5 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
                   {t('header.omnivorous')}
                 </button>
@@ -135,12 +150,12 @@ const Favorites = () => {
                   animal={item}
                   imageUrl={item.imageDeFond}
                   isFavoritePage={true}
-                  onRemove={removeFavorite}
+                  onRemove={confirmDelete}
                 />
               </Link>
             ))
           ) : (
-            <p className='col-span-full mt-10 text-xl text-center opacity-50'>
+            <p className='col-span-full mt-10 text-2xl text-center opacity-50'>
               {t('favorite.favoriteNotFound')}
             </p>
           )}

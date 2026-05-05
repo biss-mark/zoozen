@@ -21,6 +21,8 @@
         "meal": "Meal",
         "type": "Type",
         "group": "Group",
+        "lifespan": "lifespan",
+        "age_of_sexual_maturity": "age_of_sexual_maturity",
         "someCharacteristics": "some characteristics"
     },
     "home": {
@@ -53,7 +55,7 @@
     "favorite": {
         "favoriteTitle": "Your favorites",
         "favoriteNotFound": "No favorite yet",
-        "favoriteFilter": "Filter by category"
+        "favoriteFilter": "Filter : "
     },
     "footer": {
         "footerTitleOne": "Exploration",

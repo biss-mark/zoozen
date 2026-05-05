@@ -86,7 +86,7 @@ const Navbar = ({ openMenu }) => {
                 </ul>
             </nav>
             <div className="gap-1 flex items-center ">
-                <div className="relative" ref={dropdownRef}>
+                <div className="relative  hidden md:flex" ref={dropdownRef}>
                     <button onClick={toggleShow} translate="no" className=' border-2 border-black text-black bg-black/20 rounded-sm px-4 cursor-pointer'>
                         {i18n.language === 'fr' ? 'Fr' : 'En'}
                     </button>
@@ -111,11 +111,11 @@ const Navbar = ({ openMenu }) => {
                         </li>
                     </ul>
                 </div>
-                <button onClick={toggleTheme} className="cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all" title="Changer de thème" >
+                <button onClick={toggleTheme} className="cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all " title="Changer de thème" >
                     <Icon icon={isDark ? 'ri:sun-fill' : 'ri:moon-fill'} className='text-2xl' />
                 </button>
 
-                <button className='cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all hidden sm:flex md:hidden'>
+                <button className='cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all md:hidden'>
                     <NavLink to={'/research'} className={({ isActive }) => isActive ? activeLink : normalLink} >
                         <Icon icon={'material-symbols:search-rounded'} className="text-2xl" />
                     </NavLink>

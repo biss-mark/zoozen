@@ -9,9 +9,14 @@ const Header = () => {
     return (
         <div className='text-black'>
             {!toggleMenu ? (<div className='bg-black/40 fixed w-full h-screen z-20 md:hidden backdrop-blur-[10px]' onClick={() => setToggleMenu(true)} />) : ''}
-            
-            <Sidebar openMenu={toggleMenu} closeMenu={() => setToggleMenu(true)} />
-            <Navbar openMenu={() => setToggleMenu(false)} />
+
+            <Sidebar
+                openMenu={toggleMenu}
+                closeMenu={() => setToggleMenu(true)}
+            />
+            <Navbar
+                openMenu={() => setToggleMenu(false)}
+            />
         </div>
     )
 }

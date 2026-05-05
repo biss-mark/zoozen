@@ -21,6 +21,8 @@
     "meal": "Repas",
     "type": "Taper",
     "group": "Groupe",
+    "age_of_sexual_maturity": "âge_de_la_maturité_sexuelle",
+    "lifespan": "Durrée de vie",
     "someCharacteristics": "some characteristics"
   },
   "home": {
@@ -53,7 +55,7 @@
   "favorite": {
     "favoriteTitle": "Vos favoris",
     "favoriteNotFound": "Aucun favori pour le moment.",
-    "favoriteFilter": "Filtrer par catégorie"
+    "favoriteFilter": "Filtrer : "
   },
   "footer": {
     "footerTitleOne": "Exploration",
