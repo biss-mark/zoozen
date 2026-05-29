@@ -13,8 +13,8 @@
     "herbivorous": "herbivore",
     "omnivorous": "omnivore",
     "allCategory": "Tous les catégories",
-    "recent": "récent",
-    "old": "ancien",
+    "recent": "récent a ancien",
+    "old": "ancien a récent",
     "unavailable": "Description indisponible.",
     "diet": "Régime",
     "habitat": "Habitat",
@@ -56,6 +56,12 @@
     "favoriteTitle": "Vos favoris",
     "favoriteNotFound": "Aucun favori pour le moment.",
     "favoriteFilter": "Filtrer : "
+  },
+  "historique": {
+    "historiqueTitle": "Votre historique",
+    "historiqueNotFound": "Aucun historique pour le moment.",
+    "historyViews": "hisotrique des vues",
+    "researchHistory": "historique des recherches"
   },
   "footer": {
     "footerTitleOne": "Exploration",

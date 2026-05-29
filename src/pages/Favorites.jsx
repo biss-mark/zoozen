@@ -70,10 +70,10 @@ const Favorites = () => {
     const timeB = b.viewedAt || 0;
     return sortOrder === 'recent' ? timeB - timeA : timeA - timeB;
   });
-  
+
 
   return (
-    <div className='dark:bg-zoo-dark dark:text-white transition-all duration-300 h-screen'>
+    <div className='dark:bg-zoo-dark dark:text-white transition-all duration-300 min-h-screen'>
       <ScrollTop />
       <Header />
       {letConfirm ?
@@ -82,6 +82,8 @@ const Favorites = () => {
           isActive={letConfirm.isOpen}
           onClose={() => setLetConfirm({ ...letConfirm, isOpen: false })}
           onConfirm={onConfirmDelete}
+          isHistoryPage={true}
+          isFavoritePage={false}
         />
         :
         ''
@@ -150,6 +152,7 @@ const Favorites = () => {
                   animal={item}
                   imageUrl={item.imageDeFond}
                   isFavoritePage={true}
+                  isHistoryPage={false}
                   onRemove={confirmDelete}
                 />
               </Link>

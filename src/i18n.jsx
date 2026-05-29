@@ -6,14 +6,14 @@ import translationFR from './locales/fr/translation.json';
 import translationEN from './locales/en/translation.json';
 
 i18n
-  .use(LanguageDetector) // Détecte la langue du navigateur automatiquement
-  .use(initReactI18next) // Lie i18next à React
+  .use(LanguageDetector) 
+  .use(initReactI18next)
   .init({
     resources: {
       fr: { translation: translationFR },
       en: { translation: translationEN }
     },
-    fallbackLng: "fr", // Langue par défaut si la détection échoue
+    fallbackLng: "fr", 
     interpolation: { escapeValue: false }
   });
 

@@ -81,7 +81,7 @@ const Navbar = ({ openMenu }) => {
                         <NavLink to={'/favorites'} className={({ isActive }) => isActive ? activeLink : normalLink} >{t('header.favorites')}</NavLink>
                     </li>
                     <li>
-                        <NavLink to={'/histories'} className={({ isActive }) => isActive ? activeLink : normalLink} >{t('header.history')}</NavLink>
+                        <NavLink to={'/historique-views'} className={({ isActive }) => isActive ? activeLink : normalLink} >{t('header.history')}</NavLink>
                     </li>
                 </ul>
             </nav>

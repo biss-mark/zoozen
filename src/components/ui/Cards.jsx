@@ -1,11 +1,16 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 
-const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoriesPage = false, onRemove, onDelete }) => {
+const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false, onRemove }) => {
 
   const scientificName = animal.characteristics?.lifespan || "LifeSpan unknown";
-  const diet = animal.characteristics?.diet || "Non spécifié";
+  const diet = animal.characteristics.diet || "Non spécifié";
   const location = animal.locations?.[0] || "Monde";
+
+  console.log(diet);
+  console.log(scientificName);
+  console.log(location);
+  
 
   const [zoozenFavorite, setZoozenFavorite] = useState(() => {
     const favoriteStorage = localStorage.getItem('zoozenFavorite');
@@ -23,8 +28,8 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoriesPage = fal
 
     if (isFavoritePage) {
       onRemove(animal);
-    } else if(isHistoriesPage) {
-      onDelete(animal);
+    } else if(isHistoryPage) {
+      onRemove(animal);
     } else {
       saveAsFavorites(e);
     }
@@ -37,6 +42,7 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoriesPage = fal
   const addToHistory = (animal, imageUrl) => {
     const historyStorage = localStorage.getItem('zoozenHistory');
     let currentHistory = historyStorage ? JSON.parse(historyStorage) : [];
+    
 
     const newEntry = {
       name: animal.name,
@@ -101,14 +107,14 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoriesPage = fal
         <div className="flex items-center justify-between">
           <span className={`text-xs font-bold  uppercase  ${diet == 'Carnivore' ? 'text-red-300' : diet == 'Herbivore' ? 'text-zoo-green' : 'text-amber-300'} `}>{diet}</span>
           <div className="flex items-center justify-between gap-3">
-          <button onClick={saveAsFavoriteToHistory} className={`cursor-pointer p-2 bg-zoo-green rounded-full ${isHistoriesPage ? 'flex' : 'hidden'} `}>
+          <button onClick={saveAsFavoriteToHistory} className={`cursor-pointer p-2 bg-zoo-green rounded-full ${isHistoryPage ? 'flex' : 'hidden'} `}>
             <Icon icon={'material-symbols:bookmark-heart'} className={`text-xl ${isFav ? 'text-red-500' : 'text-black'}`} />
           </button>
 
           <button onClick={handleButtonClick} className="cursor-pointer p-2 bg-zoo-green rounded-full">
             <Icon
-              icon={isFavoritePage ? 'material-symbols:delete-outline' : isHistoriesPage ? 'material-symbols:delete-outline' : 'material-symbols:bookmark-heart'}
-              className={`text-xl ${isFavoritePage ? 'text-black' : (isFav ? 'text-red-500' : '')}`}
+              icon={isFavoritePage ? 'material-symbols:delete-outline' : isHistoryPage ? 'material-symbols:delete-outline' : 'material-symbols:bookmark-heart'}
+              className={`text-xl ${isFavoritePage && isFav ? 'text-red-500' : 'text-black'}`}
             />
           </button>
           </div>

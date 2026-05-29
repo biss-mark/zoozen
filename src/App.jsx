@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import Histories from "./pages/Histories";
 import AnimalDetail from "./pages/AnimalDetail";
+import HistoriqueReasearch from "./pages/HistoriqueReasearch";
 
 const App = () => {
   return (
@@ -12,7 +13,9 @@ const App = () => {
 
         <Route path="/favorites" element={<Favorites />} />
 
-        <Route path="/histories" element={<Histories />} />
+        <Route path="/historique-views" element={<Histories />} />
+
+        <Route path="/historique-research" element={<HistoriqueReasearch />} />
 
         <Route path="/animal/:id" element={<AnimalDetail />} />
       </Routes>

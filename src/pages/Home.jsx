@@ -23,6 +23,7 @@ import whale from '../assets/svg/whale.svg';
 import SkeletonCard from '../components/ui/SkeletonCard';
 import { Link } from 'react-router-dom';
 
+
 const Home = () => {
 
     const { t } = useTranslation();
@@ -72,47 +73,79 @@ const Home = () => {
 
     const searchList = ['Lion', 'Wolf', 'Elephant', 'Angelfish', 'Zebra', 'Snake', 'Giraffe', 'Bear', 'Shark', 'Eagle', 'Kangaroo', 'Penguin', 'Tiger', 'Cheetah', 'Dolphin', 'Octopus', 'Rabbit', 'Horse', 'Leopard', 'Crocodile', 'Hyena', 'Flamingo'];
 
+
     useEffect(() => {
+
+        // return;
+
         const fetchAllData = async () => {
             setLoading(true);
             try {
+                // 1. Sélection aléatoire de 8 noms
                 const selectedNames = [...searchList]
                     .sort(() => 0.5 - Math.random())
                     .slice(0, 8);
 
                 const fetchSingleAnimal = async (name) => {
-                    const resNinja = await fetch(`https://api.api-ninjas.com/v1/animals?name=${name}`, {
-                        headers: { 'X-Api-Key': import.meta.env.VITE_NINJA_API_KEY }
-                    });
-                    const ninjaData = await resNinja.json();
+                    try {
+                        // --- APPEL API NINJAS ---
+                        const resNinja = await fetch(`https://api.api-ninjas.com/v1/animals?name=${encodeURIComponent(name)}`, {
+                            headers: { 'X-Api-Key': import.meta.env.VITE_NINJA_API_KEY }
+                        });
 
-                    const animalFacts = ninjaData[0];
-
-                    const searchTerm = animalFacts?.name || name;
-
-                    const refinedSearch = `${searchTerm} animal wildlife`;
-
-                    const resUnsplash = await fetch(
-                        `https://api.unsplash.com/search/photos?query=${encodeURIComponent(refinedSearch)}&per_page=1`,
-                        {
-                            headers: { Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}` }
+                        let ninjaData = [];
+                        if (resNinja.ok) {
+                            ninjaData = await resNinja.json();
                         }
-                    );
-                    const unsplashData = await resUnsplash.json();
 
-                    return {
-                        ...animalFacts,
-                        displayId: Math.random(),
-                        commonName: name,
-                        imageDeFond: unsplashData.results[0]?.urls.regular || '/placeholder.jpg'
-                    };
+                        // Sécurité : Si l'API ne renvoie rien, on crée un objet minimum
+                        const animalFacts = (Array.isArray(ninjaData) && ninjaData.length > 0)
+                            ? ninjaData[0]
+                            : {
+                                name: name,
+                                characteristics: {
+                                    lifespan: "10-15 years",
+                                    weight: "Unknown"
+                                }
+                            };
+
+                        // --- APPEL API UNSPLASH ---
+                        const refinedSearch = `${animalFacts.name || name} animal wildlife`;
+                        const resUnsplash = await fetch(
+                            `https://api.unsplash.com/search/photos?query=${encodeURIComponent(refinedSearch)}&per_page=1`,
+                            {
+                                headers: { Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}` }
+                            }
+                        );
+
+                        let imageUrl = '/placeholder.jpg'; // Image par défaut
+                        if (resUnsplash.ok) {
+                            const unsplashData = await resUnsplash.json();
+                            imageUrl = unsplashData.results[0]?.urls.regular || '/placeholder.jpg';
+                        }
+
+                        // Retourne l'objet complet pour le state
+                        return {
+                            ...animalFacts, // On déverse tout l'objet Ninja (dont characteristics)
+                            displayId: crypto.randomUUID(),
+                            commonName: name,
+                            name: animalFacts.name || name,
+                            imageDeFond: imageUrl,
+                            // On s'assure que characteristics existe pour éviter les erreurs undefined dans Cards.jsx
+                            characteristics: animalFacts.characteristics || {}
+                        };
+                    } catch (err) {
+                        console.error(`Erreur sur ${name}:`, err);
+                        return { name: name, displayId: Math.random(), imageDeFond: '/placeholder.jpg' };
+                    }
                 };
 
+                // 2. Exécution de toutes les requêtes en parallèle
                 const finalResults = await Promise.all(selectedNames.map(name => fetchSingleAnimal(name)));
-
                 setAnimals(finalResults);
+
             } catch (error) {
-                console.error("Fatale Error :", error);
+                console.error("Erreur Fatale :", error);
             } finally {
                 setLoading(false);
             }
@@ -121,7 +154,10 @@ const Home = () => {
         fetchAllData();
     }, []);
 
-    
+    console.log(animals);
+
+
+
 
 
     // if (loading) return <div className="text-center p-20 dark:text-white">Chargement du monde animal...</div>;
@@ -167,11 +203,19 @@ const Home = () => {
                                 <SkeletonCard key={index} />
                             ))
                         ) : (
-                            animals.map((item) => (
-                                <Link key={item.displayId} to={`/animal/${item.name.toLowerCase().replace(/\s+/g, '-')}`} state={{ imageUrl: item.imageDeFond }} className="decoration-0">
-                                    <Cards animal={item} imageUrl={item.imageDeFond} />
-                                </Link>
-                            ))
+                            animals.map((item) => {
+                                if (!item || !item.name) return null;
+                                return (
+                                    <Link
+                                        key={item.displayId}
+                                        to={`/animal/${(item.name || 'unknown').toLowerCase().replace(/\s+/g, '-')}`}
+                                        state={{ imageUrl: item.imageDeFond }}
+                                        className="decoration-0"
+                                    >
+                                        <Cards animal={item} imageUrl={item.imageDeFond} />
+                                    </Link>
+                                )
+                            })
                         )}
                     </div>
                 </section>
