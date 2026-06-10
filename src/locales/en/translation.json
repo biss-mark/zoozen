@@ -55,7 +55,10 @@
     "favorite": {
         "favoriteTitle": "Your favorites",
         "favoriteNotFound": "No favorite yet",
-        "favoriteFilter": "Filter : "
+        "favoriteFilter": "Filter : ",
+        "saveFavorites": "save",
+        "removeFavorites": "remove"
+        
     },
     "historique": {
         "historiqueTitle": "Your historique",

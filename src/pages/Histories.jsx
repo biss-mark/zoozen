@@ -41,6 +41,15 @@ const Histories = () => {
     setZoozenHistory(updated);
   };
 
+  const deleteAllHistoric = () => {
+    const isConfirmed = window.confirm("Voulez-vous vraiment effacer tout votre historique de recherche ?");
+
+    if (isConfirmed) {
+      setZoozenHistory([]);
+      localStorage.removeItem('zoozenHistory');
+    }
+  };
+
   const toggleShow = () => {
     setShowFilter(!showFilter);
   }
@@ -218,6 +227,13 @@ const Histories = () => {
             </p>
           )}
         </div>
+
+        {zoozenHistory.length > 0 && (
+          <button onClick={deleteAllHistoric} className="bg-red-700 text-white text-xl p-2 cursor-pointer rounded-lg flex items-center justify-center gap-2 mt-10 mx-auto">
+            <Icon icon={'material-symbols:delete'} className='text-3xl' />
+            Tout supprimer
+          </button>
+        )}
 
       </section>
 

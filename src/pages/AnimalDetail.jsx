@@ -24,7 +24,10 @@ const AnimalDetail = () => {
     const [animalData, setAnimalData] = useState([]);
     const [animals, setAnimals] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [IShow, setIShow] = useState(false);
     const [wikiDescription, setWikiDescription] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
+    const [imageDesc, setImageDesc] = useState("");
 
     const navigate = useNavigate();
 
@@ -98,19 +101,17 @@ const AnimalDetail = () => {
         fetchImage();
     }, [animalData?.name]);
 
-    // 3. Récupération des animaux similaires basés sur le même "diet" (Régime)
     useEffect(() => {
         const animalDiet = animalData?.characteristics?.diet;
-        // On n'exécute QUE si on connaît le régime de l'animal et qu'on a notre liste globale de recherche
+
         if (!animalDiet || !searchList) return;
 
         const fetchSimilarAnimals = async () => {
             try {
-                // Comme l'API ne filtre pas par régime, on prend des animaux au hasard dans notre searchList
                 const randomSelection = [...searchList]
-                    .filter(name => name.toLowerCase() !== animalData.name.toLowerCase()) // On exclut l'animal actuel
+                    .filter(name => name.toLowerCase() !== animalData.name.toLowerCase())
                     .sort(() => 0.5 - Math.random())
-                    .slice(0, 4); // On en garde 4 pour les suggestions
+                    .slice(0, 4);
 
                 const fetchSingleAnimal = async (name) => {
                     try {
@@ -123,7 +124,6 @@ const AnimalDetail = () => {
 
                         const facts = (ninjaData && ninjaData.length > 0) ? ninjaData[0] : { name, characteristics: { diet: animalDiet } };
 
-                        // Unsplash pour l'animal similaire
                         const resUnsplash = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(name + " animal")}&per_page=1`, {
                             headers: { Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}` }
                         });
@@ -144,8 +144,6 @@ const AnimalDetail = () => {
 
                 const results = await Promise.all(randomSelection.map(name => fetchSingleAnimal(name)));
 
-                // OPTIONNEL : Filtrer côté client pour ne garder que ceux qui ont le même régime si l'API répond
-                // Si le quota est dépassé, nos fallbacks ont forcé le même diet donc l'affichage marchera !
                 setAnimals(results);
 
             } catch (error) {
@@ -154,14 +152,14 @@ const AnimalDetail = () => {
         };
 
         fetchSimilarAnimals();
-    }, [animalData?.characteristics?.diet]); // S'exécute dès que le régime de l'animal principal est chargé !
+    }, [animalData?.characteristics?.diet]);
 
 
 
     const scroll = (direction) => {
         const { current } = scrollRef;
         if (current) {
-            const scrollAmount = 166;
+            const scrollAmount = 200;
             if (direction === 'left') {
                 current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
             } else {
@@ -170,8 +168,31 @@ const AnimalDetail = () => {
         }
     };
 
+    // const checkImage = () => {
+    //     if (fetchImageUrl) {
+    //     } else if (closeImageUrl) {
+    //         setIShow(false);
+    //     } else {
+    //         setIShow(false);
+    //     }
+    // }
+
+    const closeImageUrl = () => {
+        document.body.style.overflow = 'unset';
+        setIShow(false);
+        setImageUrl('');
+        setImageDesc('');
+    }
+    const fetchImageUrl = (url, desc) => {
+
+        document.body.style.overflow = 'hidden';
+        setIShow(true);
+        setImageUrl(url);
+        setImageDesc(desc);
+    }
+
     if (loading) {
-        return(<div className='flex items-center justify-center h-screen'>Chargement...</div>)
+        return (<div className='flex items-center justify-center h-screen'>Chargement...</div>)
     }
 
 
@@ -182,6 +203,16 @@ const AnimalDetail = () => {
         <div className=" dark:bg-zoo-dark transition-all duration-300 dark:text-white">
             <ScrollTop />
             <Header />
+
+            <section className={` ${IShow === false ? 'hidden' : 'flex'} bg-white dark:bg-zoo-dark text-black dark:text-white inset-0 fixed items-center justify-center z-999 `}>
+                <div className="w-full h-full max-w-180 max-h-150 rounded-lg shadow-md relative flex items-center justify-center">
+                    <div className="absolute top-4 right-4 flex items-center gap-3">
+                        <button className="cursor-pointer bg-white dark:bg-zoo-dark rounded p-1" onClick={closeImageUrl}><Icon icon={'material-symbols:close-rounded'} className='text-3xl ' /></button>
+                    </div>
+                    <img src={imageUrl} alt={imageDesc} className="rounded-lg object-contain h-full w-full" />
+                </div>
+            </section>
+
             <div>
 
                 <section className="flex items-center gap-3 my-3 w-full max-w-300 mx-auto">
@@ -195,12 +226,16 @@ const AnimalDetail = () => {
 
                 <section className="w-full max-w-300 mx-auto px-4 pb-9">
                     {imageDeBase && (
-                        <img src={imageDeBase} alt={id} className='w-full max-h-125 object-cover rounded-[15px] ' />
+                        <img src={imageDeBase} alt={'animal/', id} className='w-full max-h-125 object-cover rounded-[15px] ' />
                     )}
 
                     {animalData ? (
                         <div className="details mt-4">
                             <h1 className='text-3xl font-bold '>{animalData.name}</h1>
+                            <button className={`flex items-center justify-center gap-1 my-2 cursor-pointer py-1 px-2 text-white bg-black dark:bg-white dark:text-black rounded-md`}>
+                                <Icon icon={'material-symbols:bookmark-heart'} className='text-xl' />
+                                {t('favorite.saveFavorites')}
+                            </button>
                             <p className="my-4">{wikiDescription}</p>
                             <ul className="list-disc">
                                 <h2 className="text-xl font-semibold capitalize mb-4">{t('header.someCharacteristics')}</h2>
@@ -263,7 +298,7 @@ const AnimalDetail = () => {
                 >
                     <div className="flex items-center gap-3 pb-4">
                         {imageAnimal.map(image => (
-                            <div className="min-w-40 h-40 rounded-lg overflow-hidden shadow-md" key={image.id} >
+                            <div className="min-w-40 h-40 rounded-lg overflow-hidden shadow-md" key={image.id} onClick={() => fetchImageUrl(image.urls.small, image.alt_description)}>
                                 <img
                                     src={image.urls.small}
                                     alt={image.alt_description}

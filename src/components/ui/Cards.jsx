@@ -7,9 +7,6 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false
   const diet = animal.characteristics.diet || "Non spécifié";
   const location = animal.locations?.[0] || "Monde";
 
-  console.log(diet);
-  console.log(scientificName);
-  console.log(location);
   
 
   const [zoozenFavorite, setZoozenFavorite] = useState(() => {
@@ -77,7 +74,6 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false
 
     if (isAlreadySavedAsFavorite) {
       updatedFavorites = currentFavorites.filter(fav => fav.name !== animal.name);
-      console.log(`${animal.name} retiré des favoris`);
     } else {
       const newFavorite = {
         name: animal.name,
@@ -88,7 +84,6 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false
         viewedAt: new Date().getTime()
       };
       updatedFavorites = [...currentFavorites, newFavorite];
-      console.log(`${animal.name} ajouté aux favoris`);
     }
 
     localStorage.setItem('zoozenFavorite', JSON.stringify(updatedFavorites));
@@ -114,7 +109,7 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false
           <button onClick={handleButtonClick} className="cursor-pointer p-2 bg-zoo-green rounded-full">
             <Icon
               icon={isFavoritePage ? 'material-symbols:delete-outline' : isHistoryPage ? 'material-symbols:delete-outline' : 'material-symbols:bookmark-heart'}
-              className={`text-xl ${isFavoritePage && isFav ? 'text-red-500' : 'text-black'}`}
+              className={`text-xl ${isFavoritePage || isFav ? 'text-red-600' : 'text-black'}`}
             />
           </button>
           </div>

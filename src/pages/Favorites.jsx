@@ -32,6 +32,15 @@ const Favorites = () => {
     setZoozenFavorite(updated);
   };
 
+    const deleteAllFavorite = () => {
+    const isConfirmed = window.confirm("Voulez-vous vraiment effacer tout vos favoris ?");
+
+    if (isConfirmed) {
+      setZoozenFavorite([]);
+      localStorage.removeItem('zoozenFavorite');
+    }
+  };
+
   const onConfirmDelete = () => {
     removeFavorite(letConfirm.animalName);
   }
@@ -82,8 +91,8 @@ const Favorites = () => {
           isActive={letConfirm.isOpen}
           onClose={() => setLetConfirm({ ...letConfirm, isOpen: false })}
           onConfirm={onConfirmDelete}
-          isHistoryPage={true}
-          isFavoritePage={false}
+          isHistoryPage={false}
+          isFavoritePage={true}
         />
         :
         ''
@@ -163,6 +172,14 @@ const Favorites = () => {
             </p>
           )}
         </div>
+
+        {zoozenFavorite.length > 0 && (
+          <button onClick={deleteAllFavorite} className="bg-red-700 text-white text-xl p-2 cursor-pointer rounded-lg flex items-center justify-center gap-2 mt-10 mx-auto">
+            <Icon icon={'material-symbols:delete'} className='text-3xl' />
+            Tout supprimer
+          </button>
+        )}
+
       </section>
       <Footer />
     </div>
