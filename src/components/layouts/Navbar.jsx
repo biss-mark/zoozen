@@ -72,7 +72,7 @@ const Navbar = ({ openMenu }) => {
                         <NavLink to={'/'} className={({ isActive }) => isActive ? activeLink : normalLink} >{t('header.home')}</NavLink>
                     </li>
                     <li>
-                        <NavLink to={'/research'} className={({ isActive }) => isActive ? activeLink : normalLink} >{t('header.search')}</NavLink>
+                        <NavLink to={'/search'} className={({ isActive }) => isActive ? activeLink : normalLink} >{t('header.search')}</NavLink>
                     </li>
                     <li>
                         <NavLink to={'/explore'} className={({ isActive }) => isActive ? activeLink : normalLink} >{t('header.explore')}</NavLink>

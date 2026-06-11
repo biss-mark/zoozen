@@ -76,7 +76,7 @@ const Home = () => {
 
     useEffect(() => {
 
-        // return;
+        return;
 
         const fetchAllData = async () => {
             setLoading(true);
@@ -154,7 +154,6 @@ const Home = () => {
         fetchAllData();
     }, []);
 
-    console.log(animals);
 
 
 

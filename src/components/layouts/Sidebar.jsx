@@ -79,7 +79,7 @@ const Sidebar = ({ openMenu, closeMenu }) => {
             <nav className="mt-5 overflow-x-auto">
                 <ul className='flex flex-col items-center justify-between gap-5 p-2'>
                     <li className="w-full" ><NavLink to={'/'} className={({ isActive }) => isActive ? activeLink : normalLink} ><Icon icon={'material-symbols:other-houses-rounded'} className="text-2xl" /> {t('header.home')}</NavLink></li>
-                    <li className="w-full" ><NavLink to={'/research'} className={({ isActive }) => isActive ? activeLink : normalLink} ><Icon icon={'material-symbols:search-rounded'} className="text-2xl" /> {t('header.search')}</NavLink></li>
+                    <li className="w-full" ><NavLink to={'/search'} className={({ isActive }) => isActive ? activeLink : normalLink} ><Icon icon={'material-symbols:search-rounded'} className="text-2xl" /> {t('header.search')}</NavLink></li>
                     <li className="w-full" ><NavLink to={'/explore'} className={({ isActive }) => isActive ? activeLink : normalLink} ><Icon icon={'zondicons:explore'} className="text-xl" /> {t('header.explore')}</NavLink></li>
                     <li className="w-full" ><NavLink to={'/favorites'} className={({ isActive }) => isActive ? activeLink : normalLink} ><Icon icon={'material-symbols-light:favorite'} className="text-2xl" /> {t('header.favorites')}</NavLink></li>
                     <li className="w-full" ><NavLink to={'/historique-views'} className={({ isActive }) => isActive ? activeLink : normalLink} ><Icon icon={'mdi:history'} className="text-2xl" /> {t('header.history')}</NavLink></li>
