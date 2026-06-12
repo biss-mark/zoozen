@@ -20,7 +20,7 @@ const Histories = () => {
 
 
   const showLangManagement = ' opacity-100 z-30';
-  const hideLangManagement = ' opacity-0 -z-50';
+  const hideLangManagement = ' opacity-0 -z-999';
 
   const [zoozenHistory, setZoozenHistory] = useState(() => {
     const HistoryStorage = localStorage.getItem('zoozenHistory');
@@ -137,7 +137,7 @@ const Histories = () => {
               <Icon icon={'material-symbols:keyboard-arrow-down'} className={`text-[30px] transition-transform duration-200 ${showHistoriqueP ? 'rotate-180' : ''}`} />
             </p>
 
-            <ul className={`absolute left-0 right-0 mt-1 bg-white/90 dark:bg-black/90 border border-stone-200 dark:border-white/30 rounded-lg shadow-lg z-10 overflow-hidden ${showHistoriqueP ? showLangManagement : hideLangManagement}`}>
+            <ul className={`absolute left-0 right-0 mt-1 bg-white/90 dark:bg-black/90 border border-stone-200 dark:border-white/30 rounded-lg shadow-lg overflow-hidden ${showHistoriqueP ? showLangManagement : hideLangManagement}`}>
               <li>
                 <NavLink to={`/historique-research`} >
                   <button className="w-full py-3 px-4 text-left cursor-pointer">

@@ -102,13 +102,13 @@ const Favorites = () => {
           <h2 className="font-bold text-3xl text-center">{t('favorite.favoriteTitle')}</h2>
 
           <div className="w-full relative max-w-75" ref={dropdownRef}>
-            <p className='border-2 w-full px-3 py-2 flex items-center justify-between gap-3 rounded-lg cursor-pointer' onClick={toggleShow}>
+            <p className='w-full bg-white dark:bg-black/30 border border-stone-300 dark:border-white/30 rounded-lg px-4 py-1.5 flex items-center justify-between font-medium shadow-sm cursor-pointer' onClick={toggleShow}>
               <span>{t('favorite.favoriteFilter')} ({activeFilterLabel})</span>
-              <Icon icon={showFilter ? 'material-symbols:keyboard-arrow-up' : 'material-symbols:keyboard-arrow-down'} className='text-[35px]' />
+              <Icon icon={'material-symbols:keyboard-arrow-down'} className={`text-[30px] transition-transform duration-200 ${showFilter ? 'rotate-180' : ''}`} />
             </p>
 
-            <ul className={`absolute border-2 w-full mt-3 bg-white dark:bg-zoo-dark overflow-hidden rounded-lg ${showFilter ? showLangManagement : hideLangManagement}`}>
-              <li className="w-full p-1 text-lg font-medium mt-1 bg-zinc-100 dark:bg-zinc-800">{t('header.category')}</li>
+            <ul className={`absolute left-0 right-0 mt-1 bg-white/90 dark:bg-black/90 border border-stone-200 dark:border-white/30 rounded-lg shadow-lg overflow-hidden ${showFilter ? showLangManagement : hideLangManagement}`}>
+              <li className="w-full p-1 text-lg font-medium bg-zinc-100 dark:bg-zinc-800">{t('header.category')}</li>
               <li>
                 <button onClick={() => { setDietFilter('Carnivore'); setActiveFilterLabel(t('header.carnivorous')); setShowFilter(false); }}
                   className="w-full py-1.5 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
