@@ -76,7 +76,7 @@ const Home = () => {
 
     useEffect(() => {
 
-        return;
+        // return;
 
         const fetchAllData = async () => {
             setLoading(true);

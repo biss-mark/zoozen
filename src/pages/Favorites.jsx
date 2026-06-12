@@ -32,7 +32,7 @@ const Favorites = () => {
     setZoozenFavorite(updated);
   };
 
-    const deleteAllFavorite = () => {
+  const deleteAllFavorite = () => {
     const isConfirmed = window.confirm("Voulez-vous vraiment effacer tout vos favoris ?");
 
     if (isConfirmed) {
@@ -152,33 +152,38 @@ const Favorites = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 mt-8">
+        <div className="">
           {filteredFavorites.length > 0 ? (
-            filteredFavorites.map((item) => (
-              <Link key={item.displayId} to={`/animal/${item.name.toLowerCase().replace(/\s+/g, '-')}`} state={{ imageUrl: item.imageDeFond }} className="decoration-0">
-                <Cards
-                  key={item.name}
-                  animal={item}
-                  imageUrl={item.imageDeFond}
-                  isFavoritePage={true}
-                  isHistoryPage={false}
-                  onRemove={confirmDelete}
-                />
-              </Link>
-            ))
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 mt-8">
+              {filteredFavorites.map((item) => (
+                <Link key={item.displayId} to={`/animal/${item.name.toLowerCase().replace(/\s+/g, '-')}`} state={{ imageUrl: item.imageDeFond }} className="decoration-0">
+                  <Cards
+                    key={item.name}
+                    animal={item}
+                    imageUrl={item.imageDeFond}
+                    isFavoritePage={true}
+                    isHistoryPage={false}
+                    onRemove={confirmDelete}
+                  />
+                </Link>
+              ))}
+            </div>
           ) : (
-            <p className='col-span-full mt-10 text-2xl text-center opacity-50'>
-              {t('favorite.favoriteNotFound')}
-            </p>
+
+            <div className="text-center my-16 py-16 bg-white dark:bg-black/30 rounded-2xl border border-dashed border-stone-300 dark:border-zinc-700 shadow-sm">
+              <Icon icon="mdi:bed-empty" className="text-4xl text-stone-300 dark:text-zinc-600 mx-auto mb-3" />
+              <p className="font-medium text-stone-500 dark:text-zinc-400">{t('favorite.favoriteNotFound')}</p>
+              <p className="text-xs text-stone-400 dark:text-zinc-500 mt-1">Vos animaux favoris apparaîtront ici.</p>
+            </div>
+          )}
+
+          {zoozenFavorite.length > 0 && (
+            <button onClick={deleteAllFavorite} className="bg-red-700 text-white text-xl p-2 cursor-pointer rounded-lg flex items-center justify-center gap-2 mt-10 mx-auto">
+              <Icon icon={'material-symbols:delete'} className='text-3xl' />
+              Tout supprimer
+            </button>
           )}
         </div>
-
-        {zoozenFavorite.length > 0 && (
-          <button onClick={deleteAllFavorite} className="bg-red-700 text-white text-xl p-2 cursor-pointer rounded-lg flex items-center justify-center gap-2 mt-10 mx-auto">
-            <Icon icon={'material-symbols:delete'} className='text-3xl' />
-            Tout supprimer
-          </button>
-        )}
 
       </section>
       <Footer />

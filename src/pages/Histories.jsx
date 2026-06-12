@@ -132,22 +132,22 @@ const Histories = () => {
         <div className="flex flex-col gap-6 items-center justify-around sm:flex-row">
 
           <div className="w-full relative max-w-75" ref={moovdownRef}>
-            <p className='border-2 w-full px-3 py-1 flex items-center justify-between gap-3 rounded-lg cursor-pointer' onClick={toggleHide}>
+            <p className='w-full bg-white dark:bg-black/30 border border-stone-300 dark:border-white/30 rounded-lg px-4 py-1.5 flex items-center justify-between font-medium shadow-sm cursor-pointer' onClick={toggleHide}>
               <span>{t('historique.historyViews')}</span>
-              <Icon icon={showHistoriqueP ? 'material-symbols:keyboard-arrow-up' : 'material-symbols:keyboard-arrow-down'} className='text-[35px]' />
+              <Icon icon={'material-symbols:keyboard-arrow-down'} className={`text-[30px] transition-transform duration-200 ${showHistoriqueP ? 'rotate-180' : ''}`} />
             </p>
 
-            <ul className={`absolute border-2 w-full mt-3 bg-white dark:bg-zoo-dark overflow-hidden rounded-lg ${showHistoriqueP ? showLangManagement : hideLangManagement}`}>
+            <ul className={`absolute left-0 right-0 mt-1 bg-white/90 dark:bg-black/90 border border-stone-200 dark:border-white/30 rounded-lg shadow-lg z-10 overflow-hidden ${showHistoriqueP ? showLangManagement : hideLangManagement}`}>
               <li>
                 <NavLink to={`/historique-research`} >
-                  <button className="w-full py-3 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
+                  <button className="w-full py-3 px-4 text-left cursor-pointer">
                     {t('historique.researchHistory')}
                   </button>
                 </NavLink>
               </li>
               <li>
                 <NavLink to={`/historique-views`} >
-                  <button className="w-full py-3 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
+                  <button className="w-full py-3 px-4 text-left cursor-pointer">
                     {t('historique.historyViews')}
                   </button>
                 </NavLink>
@@ -156,49 +156,49 @@ const Histories = () => {
           </div>
 
           <div className="w-full relative max-w-75" ref={dropdownRef}>
-            <p className='border-2 w-full px-3 py-1 flex items-center justify-between gap-3 rounded-lg cursor-pointer' onClick={toggleShow}>
+            <p className='w-full bg-white dark:bg-black/30 border border-stone-300 dark:border-white/30 rounded-lg px-4 py-1.5 flex items-center justify-between font-medium shadow-sm cursor-pointer' onClick={toggleShow}>
               <span>{t('favorite.favoriteFilter')} ({activeFilterLabel})</span>
-              <Icon icon={showFilter ? 'material-symbols:keyboard-arrow-up' : 'material-symbols:keyboard-arrow-down'} className='text-[35px]' />
+              <Icon icon={'material-symbols:keyboard-arrow-down'} className={`text-[30px] transition-transform duration-200 ${showFilter ? 'rotate-180' : ''}`} />
             </p>
 
-            <ul className={`absolute border-2 w-full mt-3 bg-white dark:bg-zoo-dark overflow-hidden rounded-lg ${showFilter ? showLangManagement : hideLangManagement}`}>
-              <li className="w-full p-1 text-lg font-medium mt-1 bg-zinc-100 dark:bg-zinc-800">{t('header.category')}</li>
+            <ul className={`absolute left-0 right-0 mt-1 bg-white/90 dark:bg-black/90 border border-stone-200 dark:border-white/30 rounded-lg shadow-lg z-10 overflow-hidden ${showFilter ? showLangManagement : hideLangManagement}`}>
+              <li className="w-full p-1 text-lg font-medium bg-zinc-100/90 dark:bg-zinc-800/90">{t('header.category')}</li>
               <li>
                 <button onClick={() => { setDietFilter('Carnivore'); setActiveFilterLabel(t('header.carnivorous')); setShowFilter(false); }}
-                  className="w-full py-1.5 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
+                  className="w-full py-1.5 px-4 text-left cursor-pointer">
                   {t('header.carnivorous')}
                 </button>
               </li>
               <li>
                 <button onClick={() => { setDietFilter('Herbivore'); setActiveFilterLabel(t('header.herbivorous')); setShowFilter(false); }}
-                  className="w-full py-1.5 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
+                  className="w-full py-1.5 px-4 text-left cursor-pointer">
                   {t('header.herbivorous')}
                 </button>
               </li>
               <li>
                 <button onClick={() => { setDietFilter('Omnivore'); setActiveFilterLabel(t('header.omnivorous')); setShowFilter(false); }}
-                  className="w-full py-1.5 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
+                  className="w-full py-1.5 px-4 text-left cursor-pointer">
                   {t('header.omnivorous')}
                 </button>
               </li>
               <li>
                 <button onClick={() => { setDietFilter('all'); setActiveFilterLabel(t('header.allCategory')); setShowFilter(false); }}
-                  className="w-full py-1.5 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
+                  className="w-full py-1.5 px-4 text-left cursor-pointer">
                   {t('header.allCategory')}
                 </button>
               </li>
 
-              <li className="w-full p-1 text-lg font-medium mt-1 bg-zinc-100 dark:bg-zinc-800">Date</li>
+              <li className="w-full p-1 text-lg font-medium mt-1 bg-zinc-100/90 dark:bg-zinc-800/90">Date</li>
 
               <li>
                 <button onClick={() => { setSortOrder('recent'); setActiveFilterLabel(t('header.recent')); setShowFilter(false); }}
-                  className="w-full py-1.5 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
+                  className="w-full py-1.5 px-4 text-left cursor-pointer">
                   {t('header.recent')}
                 </button>
               </li>
               <li>
                 <button onClick={() => { setSortOrder('old'); setActiveFilterLabel(t('header.old')); setShowFilter(false); }}
-                  className="w-full py-1.5 px-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-left cursor-pointer">
+                  className="w-full py-1.5 px-4 text-left cursor-pointer">
                   {t('header.old')}
                 </button>
               </li>
@@ -207,33 +207,37 @@ const Histories = () => {
 
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 mt-8">
+        <div className="">
           {filteredHistorys.length > 0 ? (
-            filteredHistorys.map((item) => (
-              <Link key={item.displayId} to={`/animal/${item.name.toLowerCase().replace(/\s+/g, '-')}`} state={{ imageUrl: item.imageDeFond }} className="decoration-0">
-                <Cards
-                  key={item.name}
-                  animal={item}
-                  imageUrl={item.imageDeFond}
-                  isHistoryPage={true}
-                  isFavoritePage={false}
-                  onRemove={confirmDelete}
-                />
-              </Link>
-            ))
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 mt-8">
+              {filteredHistorys.map((item) => (
+                <Link key={item.displayId} to={`/animal/${item.name.toLowerCase().replace(/\s+/g, '-')}`} state={{ imageUrl: item.imageDeFond }} className="decoration-0">
+                  <Cards
+                    key={item.name}
+                    animal={item}
+                    imageUrl={item.imageDeFond}
+                    isHistoryPage={true}
+                    isFavoritePage={false}
+                    onRemove={confirmDelete}
+                  />
+                </Link>
+              ))}
+            </div>
           ) : (
-            <p className='col-span-full mt-10 text-2xl text-center opacity-50'>
-              {t('historique.historiqueNotFound')}
-            </p>
+            <div className="text-center my-16 py-16 bg-white dark:bg-black/30 rounded-2xl border border-dashed border-stone-300 dark:border-zinc-700 shadow-sm">
+              <Icon icon="mdi:bed-empty" className="text-4xl text-stone-300 dark:text-zinc-600 mx-auto mb-3" />
+              <p className="font-medium text-stone-500 dark:text-zinc-400">{t('favorite.favoriteNotFound')}</p>
+              <p className="text-xs text-stone-400 dark:text-zinc-500 mt-1">Vos animaux favoris apparaîtront ici.</p>
+            </div>
           )}
-        </div>
 
-        {zoozenHistory.length > 0 && (
-          <button onClick={deleteAllHistoric} className="bg-red-700 text-white text-xl p-2 cursor-pointer rounded-lg flex items-center justify-center gap-2 mt-10 mx-auto">
-            <Icon icon={'material-symbols:delete'} className='text-3xl' />
-            Tout supprimer
-          </button>
-        )}
+          {zoozenHistory.length > 0 && (
+            <button onClick={deleteAllHistoric} className="bg-red-700 text-white text-xl p-2 cursor-pointer rounded-lg flex items-center justify-center gap-2 mt-10 mx-auto">
+              <Icon icon={'material-symbols:delete'} className='text-3xl' />
+              Tout supprimer
+            </button>
+          )}
+          </div>
 
       </section>
 

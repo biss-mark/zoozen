@@ -116,7 +116,7 @@ const Navbar = ({ openMenu }) => {
                 </button>
 
                 <button className='cursor-pointer p-2 rounded-full hover:bg-black/10 transition-all md:hidden'>
-                    <NavLink to={'/research'} className={({ isActive }) => isActive ? activeLink : normalLink} >
+                    <NavLink to={'/search'} className={({ isActive }) => isActive ? activeLink : normalLink} >
                         <Icon icon={'material-symbols:search-rounded'} className="text-2xl" />
                     </NavLink>
                 </button>
