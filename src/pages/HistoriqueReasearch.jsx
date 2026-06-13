@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Header from '../components/layouts/Header';
@@ -66,7 +66,7 @@ export default function HistoriqueResearch() {
                 <Icon icon="lucide:chevron-down" className={`transition-transform duration-200 ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
               {isFilterDropdownOpen && (
-                <div className="absolute left-0 right-0 mt-1 bg-white/90 dark:bg-black/90 border border-stone-200 dark:border-zinc-800 rounded-lg shadow-lg z-10 overflow-hidden">
+                <ul className="absolute left-0 right-0 mt-1 bg-white/90 dark:bg-black/90 border border-stone-200 dark:border-zinc-800 rounded-lg shadow-lg z-10 overflow-hidden">
                   <li>
                     <NavLink to={`/historique-research`} >
                       <button className="w-full py-3 px-4 text-left cursor-pointer">
@@ -81,7 +81,7 @@ export default function HistoriqueResearch() {
                       </button>
                     </NavLink>
                   </li>
-                </div>
+                </ul>
               )}
             </div>
 

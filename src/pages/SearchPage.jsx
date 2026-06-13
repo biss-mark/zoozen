@@ -258,7 +258,7 @@ export default function SearchPage() {
         <div className="bg-white dark:bg-zoo-dark dark:text-white text-zoo-dark transition-all duration-300">
             <Header />
 
-            <div className="max-w-6xl mx-auto space-y-8 mb-10">
+            <div className="max-w-6xl mx-auto space-y-8 mb-10 px-2">
                 <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto my-10 shadow-sm rounded-full bg-white dark:bg-zoo-dark border border-gray-300 focus-within:ring-2 focus-within:border-0 focus-within:ring-zoo-green transition-all flex items-center pr-2 pl-6">
                     <input
                         type="text"

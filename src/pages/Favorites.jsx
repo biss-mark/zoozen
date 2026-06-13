@@ -170,7 +170,7 @@ const Favorites = () => {
             </div>
           ) : (
 
-            <div className="text-center my-16 py-16 bg-white dark:bg-black/30 rounded-2xl border border-dashed border-stone-300 dark:border-zinc-700 shadow-sm">
+            <div className="text-center my-16 bg-white dark:bg-black/30 rounded-2xl border border-dashed border-stone-300 dark:border-zinc-700 shadow-sm max-w-4xl mx-auto px-4 py-12 transition-all duration-300">
               <Icon icon="mdi:bed-empty" className="text-4xl text-stone-300 dark:text-zinc-600 mx-auto mb-3" />
               <p className="font-medium text-stone-500 dark:text-zinc-400">{t('favorite.favoriteNotFound')}</p>
               <p className="text-xs text-stone-400 dark:text-zinc-500 mt-1">Vos animaux favoris apparaîtront ici.</p>
@@ -178,7 +178,7 @@ const Favorites = () => {
           )}
 
           {zoozenFavorite.length > 0 && (
-            <button onClick={deleteAllFavorite} className="bg-red-700 text-white text-xl p-2 cursor-pointer rounded-lg flex items-center justify-center gap-2 mt-10 mx-auto">
+            <button onClick={deleteAllFavorite} className="bg-red-700 text-white text-lg p-2 cursor-pointer rounded-lg flex items-center justify-center gap-2 mt-10 mx-auto">
               <Icon icon={'material-symbols:delete'} className='text-3xl' />
               Tout supprimer
             </button>

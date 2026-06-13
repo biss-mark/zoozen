@@ -28,6 +28,7 @@ const AnimalDetail = () => {
     const [wikiDescription, setWikiDescription] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [imageDesc, setImageDesc] = useState("");
+    const [favorites, setFavorites] = useState([])
 
     const navigate = useNavigate();
 
@@ -168,15 +169,6 @@ const AnimalDetail = () => {
         }
     };
 
-    // const checkImage = () => {
-    //     if (fetchImageUrl) {
-    //     } else if (closeImageUrl) {
-    //         setIShow(false);
-    //     } else {
-    //         setIShow(false);
-    //     }
-    // }
-
     const closeImageUrl = () => {
         document.body.style.overflow = 'unset';
         setIShow(false);
@@ -191,8 +183,53 @@ const AnimalDetail = () => {
         setImageDesc(desc);
     }
 
+
+    const saveAsFavorite = (animal, e) => {
+
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+
+        let savedFavorites = JSON.parse(localStorage.getItem('zoozenFavorite')) || [];
+
+
+        const isAlreadyFav = savedFavorites.some(fav => fav.name.toLowerCase() === id.toLowerCase());
+
+        if (isAlreadyFav) {
+
+            savedFavorites = savedFavorites.filter(fav => fav.name.toLowerCase() !== id.toLowerCase());
+        } else {
+
+            const newFavorite = {
+                name: id,
+                imageDeFond: animal.image || animal.imageDeFond,
+                characteristics: animal.characteristics || {},
+                locations: animal.locations || [],
+                displayId: animal.displayId || Math.random(),
+
+            };
+            savedFavorites.push(newFavorite);
+        }
+
+
+        localStorage.setItem('zoozenFavorite', JSON.stringify(savedFavorites));
+
+
+        if (setFavorites) {
+            setFavorites(savedFavorites);
+        }
+    };
+
+
     if (loading) {
-        return (<div className='flex items-center justify-center h-screen'>Chargement...</div>)
+        return (
+            <div className="flex flex-col items-center justify-center py-32 space-y-4">
+                <div className="w-8 h-8 border-4 border-zoo-green border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-stone-500 dark:text-stone-200 text-sm ">Chargement...</p>
+            </div>
+        )
     }
 
 
@@ -232,9 +269,14 @@ const AnimalDetail = () => {
                     {animalData ? (
                         <div className="details mt-4">
                             <h1 className='text-3xl font-bold '>{animalData.name}</h1>
-                            <button className={`flex items-center justify-center gap-1 my-2 cursor-pointer py-1 px-2 text-white bg-black dark:bg-white dark:text-black rounded-md`}>
-                                <Icon icon={'material-symbols:bookmark-heart'} className='text-xl' />
-                                {t('favorite.saveFavorites')}
+                            <button
+                                className="flex items-center justify-center gap-1 my-2 cursor-pointer py-2 px-2 bg-red-600/10  text-red-500 rounded-md"
+                                onClick={(e) => saveAsFavorite(id, e)}
+                            >
+                                <Icon
+                                    icon={favorites.some(f => f.name.toLowerCase() === id.toLowerCase()) ? 'material-symbols:favorite' : 'material-symbols:favorite-outline'}
+                                    className='text-xl'
+                                />
                             </button>
                             <p className="my-4">{wikiDescription}</p>
                             <ul className="list-disc">

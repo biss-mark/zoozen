@@ -7,7 +7,7 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false
   const diet = animal.characteristics.diet || "Non spécifié";
   const location = animal.locations?.[0] || "Monde";
 
-  
+
 
   const [zoozenFavorite, setZoozenFavorite] = useState(() => {
     const favoriteStorage = localStorage.getItem('zoozenFavorite');
@@ -25,7 +25,7 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false
 
     if (isFavoritePage) {
       onRemove(animal);
-    } else if(isHistoryPage) {
+    } else if (isHistoryPage) {
       onRemove(animal);
     } else {
       saveAsFavorites(e);
@@ -39,7 +39,7 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false
   const addToHistory = (animal, imageUrl) => {
     const historyStorage = localStorage.getItem('zoozenHistory');
     let currentHistory = historyStorage ? JSON.parse(historyStorage) : [];
-    
+
 
     const newEntry = {
       name: animal.name,
@@ -102,16 +102,16 @@ const Cards = ({ animal, imageUrl, isFavoritePage = false, isHistoryPage = false
         <div className="flex items-center justify-between">
           <span className={`text-xs font-bold  uppercase  ${diet == 'Carnivore' ? 'text-red-300' : diet == 'Herbivore' ? 'text-zoo-green' : 'text-amber-300'} `}>{diet}</span>
           <div className="flex items-center justify-between gap-3">
-          <button onClick={saveAsFavoriteToHistory} className={`cursor-pointer p-2 bg-zoo-green rounded-full ${isHistoryPage ? 'flex' : 'hidden'} `}>
-            <Icon icon={'material-symbols:bookmark-heart'} className={`text-xl ${isFav ? 'text-red-500' : 'text-black'}`} />
-          </button>
+            <button onClick={saveAsFavoriteToHistory} className={`cursor-pointer p-2 bg-zoo-green rounded-full ${isHistoryPage ? 'flex' : 'hidden'} `}>
+              <Icon icon={isFav ? 'material-symbols:favorite' : 'material-symbols:favorite-outline'} className={`text-xl ${isFav ? 'text-red-500' : 'text-black'}`} />
+            </button>
 
-          <button onClick={handleButtonClick} className="cursor-pointer p-2 bg-zoo-green rounded-full">
-            <Icon
-              icon={isFavoritePage ? 'material-symbols:delete-outline' : isHistoryPage ? 'material-symbols:delete-outline' : 'material-symbols:bookmark-heart'}
-              className={`text-xl ${isFavoritePage || isFav ? 'text-red-600' : 'text-black'}`}
-            />
-          </button>
+            <button onClick={handleButtonClick} className="cursor-pointer p-2 bg-zoo-green rounded-full">
+              <Icon
+                icon={isFavoritePage ? 'material-symbols:delete-outline' : isHistoryPage ? 'material-symbols:delete-outline' : isFav ? 'material-symbols:favorite' : 'material-symbols:favorite-outline'}
+                className={`text-xl ${isFavoritePage || isFav ? 'text-red-500' : 'text-black'}`}
+              />
+            </button>
           </div>
         </div>
         <h2 className="text-xl font-bold dark:text-white capitalize mt-1 transition-all duration-300">{animal.name}</h2>

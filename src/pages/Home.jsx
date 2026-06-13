@@ -71,7 +71,7 @@ const Home = () => {
     const currentImg = animalBanner[index];
 
 
-    const searchList = ['Lion', 'Wolf', 'Elephant', 'Angelfish', 'Zebra', 'Snake', 'Giraffe', 'Bear', 'Shark', 'Eagle', 'Kangaroo', 'Penguin', 'Tiger', 'Cheetah', 'Dolphin', 'Octopus', 'Rabbit', 'Horse', 'Leopard', 'Crocodile', 'Hyena', 'Flamingo'];
+    const searchList = ['Lion', 'Wolf', 'Elephant', 'Angelfish', 'Zebra', 'Snake', 'Giraffe', 'Bear', 'Shark', 'Eagle', 'Kangaroo', 'Penguin', 'Tiger', 'Cheetah', 'Octopus', 'Rabbit', 'Horse', 'Leopard', 'Crocodile', 'Hyena', 'Flamingo'];
 
 
     useEffect(() => {
