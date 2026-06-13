@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import Header from '../components/layouts/Header';
+import { useTranslation } from 'react-i18next';
 
 const MOCK_EXPLORE_POOL = [
     { name: "Lion", characteristics: { diet: "Carnivore", lifespan: "10-14 years", habitat: "Savannah" } },
@@ -23,6 +24,7 @@ export default function Explore() {
     const [allAnimals, setAllAnimals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [favorites, setFavorites] = useState([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const savedFavorites = JSON.parse(localStorage.getItem('zoozenFavorite')) || [];
@@ -172,7 +174,7 @@ export default function Explore() {
                     </div>
                 ) : (
                     <div className="space-y-16">
-                        {/* Section Carnivores */}
+
                         {carnivores.length > 0 && (
                             <section className="space-y-6">
                                 <div className="flex items-center justify-between border-b border-red-100 pb-3">
@@ -181,7 +183,7 @@ export default function Explore() {
                                             <Icon icon="mdi:bone" className="text-2xl" />
                                         </div>
                                         <div>
-                                            <h2 className="text-2xl font-serif font-bold text-stone-900 dark:text-white">Les Carnivores</h2>
+                                            <h2 className="text-[20px] capitalize font-bold text-stone-900 dark:text-white">{t('header.carnivorous')}</h2>
                                             <p className="text-xs text-stone-400 font-medium">Super-prédateurs et chasseurs agiles</p>
                                         </div>
                                     </div>
@@ -219,7 +221,7 @@ export default function Explore() {
                                             <Icon icon="ph:leaf-bold" className="text-2xl" />
                                         </div>
                                         <div>
-                                            <h2 className="text-2xl font-serif font-bold text-stone-900 dark:text-white">Les Herbivores</h2>
+                                            <h2 className="text-[20px] capitalize font-bold text-stone-900 dark:text-white">{t('header.herbivorous')}</h2>
                                             <p className="text-xs text-stone-400 font-medium">Gardiens des plaines et des forêts végétales</p>
                                         </div>
                                     </div>
@@ -257,7 +259,7 @@ export default function Explore() {
                                             <Icon icon="fluent:food-apple-24-filled" className="text-2xl" />
                                         </div>
                                         <div>
-                                            <h2 className="text-2xl font-serif font-bold text-stone-900 dark:text-white">Les Omnivores</h2>
+                                            <h2 className="text-[20px] capitalize font-bold text-stone-900 dark:text-white">{t('header.omnivorous')}</h2>
                                             <p className="text-xs text-stone-400 font-medium">Alimentation mixte et grande adaptabilité</p>
                                         </div>
                                     </div>
@@ -311,7 +313,7 @@ function ExploreCard({ animal, isFavorite, onToggleFavorite, onNavigate }) {
             <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                 <div>
                     <div className="flex items-center justify-between gap-2">
-                        <h3 className="text-lg font-serif font-bold text-stone-800 dark:text-white capitalize truncate">{animal.name}</h3>
+                        <h3 className="text-lg font-bold text-stone-800 dark:text-white capitalize truncate">{animal.name}</h3>
                         <button
                             onClick={(e) => onToggleFavorite(animal, e)}
                             className="p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-neutral-800 transition-colors text-red-500 shrink-0"
